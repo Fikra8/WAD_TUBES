@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('landing');
 });
+
 // Authentication routes with email verification enabled
 Auth::routes(['verify' => true]);
 // Authentication routes
@@ -46,3 +47,8 @@ Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.
 route::get('admin/home',[HomeController::class,'index2']);
 
 route::get('owner/home',[HomeController::class,'index3']);
+
+Route::get('/home', function () {
+    return view('hi');
+});
+>>
