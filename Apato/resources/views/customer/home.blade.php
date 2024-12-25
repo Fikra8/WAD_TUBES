@@ -7,7 +7,7 @@
                     <h4 class="px-3 py-3 text-white fw-bold">Apato</h4>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link text-white active d-flex align-items-center" href="/home">
+                            <a class="nav-link text-white d-flex align-items-center" href="/home">
                                 <i class="bi bi-house-door me-2"></i> Home
                             </a>
                         </li>
@@ -16,24 +16,10 @@
                                 <i class="bi bi-search me-2"></i> Search Rooms
                             </a>
                         </li>
+                        
                         <li class="nav-item">
-                            <a class="nav-link text-white d-flex align-items-center" href="/orders">
-                                <i class="bi bi-calendar-check me-2"></i> Book a Room
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white d-flex align-items-center" href="/products">
+                            <a class="nav-link text-white active d-flex align-items-center" href="/booking-history">
                                 <i class="bi bi-book me-2"></i> Booking History
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white d-flex align-items-center" href="/customers">
-                                <i class="bi bi-person me-2"></i> Profile
-                            </a>
-                        </li>
-                        <li class="nav-item mt-4">
-                            <a class="nav-link text-white d-flex align-items-center" href="/settings">
-                                <i class="bi bi-gear me-2"></i> Settings
                             </a>
                         </li>
                     </ul>

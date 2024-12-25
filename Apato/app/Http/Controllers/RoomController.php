@@ -3,22 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Room;
+use App\Models\Booking;
 
 class RoomController extends Controller
 {   
-    // Display the booking form
-    public function create()
+    // Display the booking form for a specific room
+    public function create($id)
     {
-        return view('customer.bookform');
+        // Fetch the room by its ID
+        $room = Room::findOrFail($id);
+
+        // Return the booking form view with the room data
+        return view('customer.bookform', compact('room'));
     }
 
-    // Handle form submission
-    public function store(Request $request)
+    // Handle form submission for booking a room
+    public function store(Request $request, $roomId)
     {
         // Validate form data
         $validatedData = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'email' => 'required|email',
             'phone_number' => 'required|string',
             'date_from' => 'required|date',
@@ -28,41 +33,40 @@ class RoomController extends Controller
             'people_count' => 'required|integer|min:1',
             'comments' => 'nullable|string',
         ]);
-        return back()->with('success', 'Your room has been booked successfully!');
+
+        // Create a new booking using the validated data
+        Booking::create([
+            'room_id' => $roomId,
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'date_from' => $request->date_from,
+            'time_from' => $request->time_from,
+            'date_to' => $request->date_to,
+            'time_to' => $request->time_to,
+            'people_count' => $request->people_count,
+            'comments' => $request->comments,
+        ]);
+
+        // Redirect back with a success message
+        // Flash success message
+        session()->flash('success', 'Your room has been booked successfully.');
+
+        // Redirect back to the booking history page
+        return redirect()->route('booking-history.index');
     }
 
+    // Display the available rooms and search functionality
     public function index(Request $request)
     {
-        // Example rooms data for testing
-        $rooms = [
-            [
-                'name' => 'Deluxe 2BR at The Green Kosambi Bandung Apartment',
-                'location' => 'Lengkong, Buahbatu',
-                'rating' => 8.2,
-                'reviews' => 5,
-                'discounted_price' => 'Rp 845.998',
-                'original_price' => 'Rp 1.409.997',
-                'image' => 'images/booking-room.jpg',
-                'tag' => '36% OFF',
-                'status' => 'Convenient'
-            ],
-            [
-                'name' => 'Minimalist 2BR Apartment at Gateway Ahmad Yani',
-                'location' => 'Buahbatu, Bandung',
-                'rating' => 6.0,
-                'reviews' => 5,
-                'discounted_price' => 'Rp 624.612',
-                'original_price' => 'Rp 832.815',
-                'image' => 'images/booking-room.jpg',
-                'status' => 'Acceptable'
-            ]
-        ];
+        // Example rooms data for testing (replace this with actual database queries)
+        $rooms = Room::all(); // Fetch rooms from the database
 
-        // Search logic
+        // Search functionality
         $search = $request->input('search');
         if ($search) {
-            $rooms = array_filter($rooms, function ($room) use ($search) {
-                return stripos($room['name'], $search) !== false || stripos($room['location'], $search) !== false;
+            $rooms = $rooms->filter(function ($room) use ($search) {
+                return stripos($room->name, $search) !== false || stripos($room->location, $search) !== false;
             });
         }
 

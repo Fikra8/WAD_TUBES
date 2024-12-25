@@ -4,87 +4,158 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book a Room</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}"> <!-- Optional: Link to CSS -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
         }
+
         .container {
-            max-width: 600px;
-            margin: 50px auto;
+            max-width: 1200px;
+            margin: 20px auto;
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        input, textarea, select {
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: #333;
+        }
+
+        .room-image {
+            width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .form {
+            margin-top: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input, textarea, button {
             width: 100%;
             padding: 10px;
-            margin: 10px 0;
+            margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            box-sizing: border-box;
         }
+
         button {
-            background-color: #28a745;
+            background-color: #007BFF;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
         }
+
+
         button:hover {
-            background-color: #218838;
+            background-color: #0056b3;
         }
-        .form-label {
-            font-weight: bold;
+
+        .room-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .room-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        /* Go Back Button Style */
+        .btn-secondary {
+            display: inline-block;
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Book a Room</h2>
-        <form action="{{ route('rooms.book') }}" method="POST">
-            @csrf <!-- CSRF protection -->
-            <!-- Name -->
-            <label class="form-label" for="first_name">Name</label>
-            <div style="display: flex; gap: 10px;">
-                <input type="text" id="first_name" name="first_name" placeholder="First Name" required>
-                <input type="text" id="last_name" name="last_name" placeholder="Last Name" required>
-            </div>
+        <!-- Go Back Button -->
+        <a href="{{ route('rooms.index') }}" class="arrow-btn">
+            ← Go Back
+        </a>
+        <div class="header">
+            <h1>{{ $room->room_title }}</h1>
+        </div>
 
-            <!-- E-mail -->
-            <label class="form-label" for="email">E-mail</label>
-            <input type="email" id="email" name="email" placeholder="ex: myname@example.com" required>
+        <div class="room-info">
+            <img class="room-image" src="{{ $room->image_url }}" alt="Room Image">
+            <p><strong>Room Type:</strong> {{ $room->room_type }}</p>
+            <p><strong>Price:</strong> ${{ $room->price_per_night }} per night</p>
+            <p>{{ $room->description }}</p>
+        </div>
 
-            <!-- Phone Number -->
-            <label class="form-label" for="phone_number">Phone Number</label>
-            <input type="tel" id="phone_number" name="phone_number" placeholder="(000) 000-0000" required>
+        <div class="form">
+            <h2>Book a Room</h2>
+            <form action="{{ url('add_bookings', $room->id) }}" method="POST">
+                @csrf <!-- CSRF protection -->
 
-            <!-- Date From -->
-            <label class="form-label" for="date_from">Date From</label>
-            <div style="display: flex; gap: 10px;">
-                <input type="date" id="date_from" name="date_from" required>
-                <input type="time" id="time_from" name="time_from" required>
-            </div>
+                <!-- Name -->
+                <label class="form-label" for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Your Name" required>
 
-            <!-- Date To -->
-            <label class="form-label" for="date_to">Date To</label>
-            <div style="display: flex; gap: 10px;">
-                <input type="date" id="date_to" name="date_to" required>
-                <input type="time" id="time_to" name="time_to" required>
-            </div>
+                <!-- E-mail -->
+                <label class="form-label" for="email">E-mail</label>
+                <input type="email" id="email" name="email" placeholder="ex: myname@example.com" required>
 
-            <!-- Number of People -->
-            <label class="form-label" for="people_count">No. of People</label>
-            <input type="number" id="people_count" name="people_count" placeholder="Enter number of people" min="1" required>
+                <!-- Phone Number -->
+                <label class="form-label" for="phone_number">Phone Number</label>
+                <input type="tel" id="phone_number" name="phone_number" placeholder="ex: +62 800000000" required>
 
-            <!-- Comments -->
-            <label class="form-label" for="comments">Comments</label>
-            <textarea id="comments" name="comments" rows="4" placeholder="Additional comments"></textarea>
+                <!-- Date From -->
+                <label class="form-label" for="date_from">Date From</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="date" id="date_from" name="date_from" required>
+                    <input type="time" id="time_from" name="time_from" required>
+                </div>
 
-            <!-- Submit Button -->
-            <button type="submit">Book Now</button>
-        </form>
+                <!-- Date To -->
+                <label class="form-label" for="date_to">Date To</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="date" id="date_to" name="date_to" required>
+                    <input type="time" id="time_to" name="time_to" required>
+                </div>
+
+                <!-- Number of People -->
+                <label class="form-label" for="people_count">No. of People</label>
+                <input type="number" id="people_count" name="people_count" placeholder="Enter number of people" min="1" required>
+
+                <!-- Comments -->
+                <label class="form-label" for="comments">Comments</label>
+                <textarea id="comments" name="comments" rows="4" placeholder="Additional comments"></textarea>
+
+                <!-- Submit Button -->
+                <button type="submit">Book Now</button>
+            </form>
+        </div>
+
     </div>
 </body>
 </html>
