@@ -3,28 +3,30 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory; 
-use App\Models\Booking;
-
 
 class Room extends Model
 {
-    use HasFactory;
-
-    // Specify the table name (if different from pluralized model name)
-    // protected $table = 'rooms'; // Uncomment if table name is custom
-
-    // The attributes that are mass assignable
     protected $fillable = [
-        'room_title',
-        'room_type',
-        'price_per_night',
+        'owner_id',
+        'name',
+        'type',
+        'price',
         'description',
-        'image_url',
+        'image_path',
         'status'
     ];
 
-    // Define a hasMany relationship to Booking
+    /**
+     * Get the owner of the room.
+     */
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    /**
+     * Get the bookings for the room.
+     */
     public function bookings()
     {
         return $this->hasMany(Booking::class);

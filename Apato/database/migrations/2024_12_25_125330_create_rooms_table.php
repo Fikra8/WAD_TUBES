@@ -12,16 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('rooms', function (Blueprint $table) {
-            $table->id();  // auto-incrementing ID
+            $table->id();
+            $table->foreignId('owner_id')->constrained('users');
             $table->string('name');
-            $table->string('location');
-            $table->decimal('rating', 3, 1);  // for example: 8.2
-            $table->integer('reviews');
-            $table->decimal('discounted_price', 10, 2);
-            $table->decimal('original_price', 10, 2);
-            $table->string('image');
-            $table->string('tag')->nullable();
-            $table->string('status');
+            $table->string('type');
+            $table->decimal('price', 10, 2);
+            $table->text('description')->nullable();
+            $table->string('image_path')->nullable();
+            $table->enum('status', ['available', 'occupied', 'maintenance'])->default('available');
             $table->timestamps();
         });
     }

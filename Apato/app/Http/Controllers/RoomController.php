@@ -59,18 +59,21 @@ class RoomController extends Controller
     // Display the available rooms and search functionality
     public function index(Request $request)
     {
-        // Example rooms data for testing (replace this with actual database queries)
-        $rooms = Room::all(); // Fetch rooms from the database
+        $query = \App\Models\Room::query();
 
-        // Search functionality
-        $search = $request->input('search');
-        if ($search) {
-            $rooms = $rooms->filter(function ($room) use ($search) {
-                return stripos($room->name, $search) !== false || stripos($room->location, $search) !== false;
-            });
+        // Search logic
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('name', 'like', "%{$search}%")
+                  ->orWhere('type', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
         }
 
-        // Return the view with filtered rooms
-        return view('customer.searchroom', ['rooms' => $rooms, 'search' => $search]);
+        // Only show available rooms
+        $query->where('status', 'available');
+
+        $rooms = $query->get();
+
+        return view('customer.searchroom', compact('rooms'));
     }
 }

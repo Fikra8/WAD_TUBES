@@ -3,34 +3,36 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Room;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Booking extends Model
 {
-    use HasFactory;
-
-    // Specify the table name (if different from pluralized model name)
-    // protected $table = 'bookings'; // Uncomment if table name is custom
-
-    // The attributes that are mass assignable
     protected $fillable = [
         'room_id',
-        'name',
-        'email',
-        'phone_number',
-        'date_from',
-        'time_from',
-        'date_to',
-        'time_to',
-        'people_count',
-        'comments',
-        'upload_image_path',
+        'user_id',
+        'check_in_date',
+        'duration_months',
+        'total_price',
+        'status',
+        'notes'
     ];
 
-    // Define a belongsTo relationship to Room
+    protected $casts = [
+        'check_in_date' => 'date'
+    ];
+
+    /**
+     * Get the room associated with the booking.
+     */
     public function room()
     {
         return $this->belongsTo(Room::class);
+    }
+
+    /**
+     * Get the user who made the booking.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
