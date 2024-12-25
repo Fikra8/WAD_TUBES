@@ -58,23 +58,17 @@
                             <div class="col-md-4 mb-4">
                                 <div class="card shadow-sm">
                                     <!-- Image Section -->
-                                    <img src="{{ asset($room['image']) }}" alt="{{ $room['name'] }}" class="img-fluid card-img-top" style="height: 200px; object-fit: cover;">
+                                    <img src="{{ asset($room->image_path ?? 'images/booking-room.jpg') }}" alt="{{ $room->name }}" class="img-fluid card-img-top" style="height: 200px; object-fit: cover;">
                                     
                                     <!-- Details Section -->
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ $room['name'] }}</h5>
-                                        <p class="card-text text-muted">{{ $room['location'] }}</p>
-                                        <p class="card-text">
-                                            <strong>Rating:</strong> {{ $room['rating'] }} ({{ $room['reviews'] }} reviews)
-                                            @if (isset($room['tag']))
-                                                <span class="badge bg-success ms-2">{{ $room['tag'] }}</span>
-                                            @endif
-                                        </p>
+                                        <h5 class="card-title">{{ $room->name }}</h5>
+                                        <p class="card-text text-muted">{{ $room->type }}</p>
+                                        <p class="card-text">{{ $room->description }}</p>
                                         <p class="card-text text-danger fw-bold">
-                                            {{ $room['discounted_price'] }} 
-                                            <del class="text-muted">{{ $room['original_price'] }}</del>
+                                            Rp {{ number_format($room->price, 0, ',', '.') }}/month
                                         </p>
-                                        <a href="/book-room" class="btn btn-primary">Select Room</a>
+                                        <a href="{{ route('rooms.create', ['room_id' => $room->id]) }}" class="btn btn-primary">Select Room</a>
                                     </div>
                                 </div>
                             </div>

@@ -14,8 +14,6 @@ Route::get('/', function () {
     return view('landing');
 });
 
-// Authentication routes with email verification enabled
-Auth::routes(['verify' => true]);
 // Authentication routes
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
 Route::post('/login', [AuthenticatedSessionController::class, 'store']);
@@ -27,9 +25,6 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::get('/email/verify', [VerificationController::class, 'show'])->name('verification.notice');
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
 Route::post('/email/resend', [VerificationController::class, 'resend'])->name('verification.send');
-
-// Home route after login with email verification
-Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Rooms routes
 Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
@@ -44,11 +39,21 @@ Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit')
 Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-route::get('admin/home',[HomeController::class,'index2']);
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('admin/home',[HomeController::class,'index2']);
 
-route::get('owner/home',[HomeController::class,'index3']);
-
-Route::get('/home', function () {
-    return view('hi');
+// Owner routes
+Route::prefix('owner')->group(function () {
+    Route::get('/home', [HomeController::class, 'index3']);
+    
+    // Room management routes
+    Route::get('/rooms', [App\Http\Controllers\Owner\RoomManagementController::class, 'index'])->name('owner.rooms.index');
+    Route::get('/rooms/{room}', [App\Http\Controllers\Owner\RoomManagementController::class, 'show'])->name('owner.rooms.show');
+    Route::post('/rooms', [App\Http\Controllers\Owner\RoomManagementController::class, 'store'])->name('owner.rooms.store');
+    Route::put('/rooms/{room}', [App\Http\Controllers\Owner\RoomManagementController::class, 'update'])->name('owner.rooms.update');
+    Route::delete('/rooms/{room}', [App\Http\Controllers\Owner\RoomManagementController::class, 'destroy'])->name('owner.rooms.destroy');
+    
+    // Booking management routes
+    Route::get('/bookings', [App\Http\Controllers\Owner\RoomManagementController::class, 'bookings'])->name('owner.bookings.index');
+    Route::put('/bookings/{booking}', [App\Http\Controllers\Owner\RoomManagementController::class, 'handleBooking'])->name('owner.bookings.handle');
 });
->>

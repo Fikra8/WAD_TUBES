@@ -33,40 +33,21 @@ class RoomController extends Controller
 
     public function index(Request $request)
     {
-        // Example rooms data for testing
-        $rooms = [
-            [
-                'name' => 'Deluxe 2BR at The Green Kosambi Bandung Apartment',
-                'location' => 'Lengkong, Buahbatu',
-                'rating' => 8.2,
-                'reviews' => 5,
-                'discounted_price' => 'Rp 845.998',
-                'original_price' => 'Rp 1.409.997',
-                'image' => 'images/booking-room.jpg',
-                'tag' => '36% OFF',
-                'status' => 'Convenient'
-            ],
-            [
-                'name' => 'Minimalist 2BR Apartment at Gateway Ahmad Yani',
-                'location' => 'Buahbatu, Bandung',
-                'rating' => 6.0,
-                'reviews' => 5,
-                'discounted_price' => 'Rp 624.612',
-                'original_price' => 'Rp 832.815',
-                'image' => 'images/booking-room.jpg',
-                'status' => 'Acceptable'
-            ]
-        ];
+        $query = \App\Models\Room::query();
 
         // Search logic
-        $search = $request->input('search');
-        if ($search) {
-            $rooms = array_filter($rooms, function ($room) use ($search) {
-                return stripos($room['name'], $search) !== false || stripos($room['location'], $search) !== false;
-            });
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('name', 'like', "%{$search}%")
+                  ->orWhere('type', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
         }
 
-        // Return the view with filtered rooms
-        return view('customer.searchroom', ['rooms' => $rooms, 'search' => $search]);
+        // Only show available rooms
+        $query->where('status', 'available');
+
+        $rooms = $query->get();
+
+        return view('customer.searchroom', compact('rooms'));
     }
 }
