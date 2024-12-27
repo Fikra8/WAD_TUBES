@@ -1,13 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\HomeController; 
+use App\Http\Controllers\CustomerController; 
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
@@ -53,4 +53,12 @@ Route::prefix('owner')->group(function () {
     // Booking management routes
     Route::get('/bookings', [App\Http\Controllers\Owner\RoomManagementController::class, 'bookings'])->name('owner.bookings.index');
     Route::put('/bookings/{booking}', [App\Http\Controllers\Owner\RoomManagementController::class, 'handleBooking'])->name('owner.bookings.handle');
+
+    // Customer management routes
+    Route::post('/owner/customers/sync', [CustomerController::class, 'syncFromUsers'])->name('customers.sync');
+    Route::get('/owner/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
+    Route::put('/owner/customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
+    Route::resource('customers', CustomerController::class);
+    
+
 });
