@@ -31,9 +31,6 @@ Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
 Route::get('/book-room', [RoomController::class, 'create'])->name('rooms.create');
 Route::post('/book-room', [RoomController::class, 'store'])->name('rooms.book');
 
-// Dashboard route
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
 // Profile routes
 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
