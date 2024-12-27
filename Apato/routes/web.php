@@ -1,13 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\HomeController; 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Auth;
 
@@ -36,15 +36,25 @@ Route::get('/rooms/{id}/book', [RoomController::class, 'create'])->name('rooms.c
 Route::post('/rooms/{id}/book', [RoomController::class, 'store'])->name('add_booking'); // Handle booking form submission
 Route::post('/add_bookings/{roomId}', [RoomController::class, 'store'])->name('add_bookings');
 
-// Dashboard route
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
 // Profile routes
 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+// Admin routes
+Route::prefix('admin')->group(function () {
+    Route::get('/home',[HomeController::class,'index2']);
+
+    // Customer management routes
+    Route::post('/admin/customers/sync', [CustomerController::class, 'syncFromUsers'])->name('customers.sync');
+    Route::get('/admin/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
+    Route::put('/admin/customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
+    Route::resource('customers', CustomerController::class);
+
+});
+
 Route::get('/booking-history', [BookingController::class, 'index'])->name('booking-history.index'); // View all bookings
 Route::get('/booking/{id}/edit', [BookingController::class, 'edit'])->name('booking.edit'); // Edit a booking
 Route::put('/booking/{id}', [BookingController::class, 'update'])->name('booking.update'); // Update booking
@@ -67,4 +77,6 @@ Route::prefix('owner')->group(function () {
     // Booking management routes
     Route::get('/bookings', [App\Http\Controllers\Owner\RoomManagementController::class, 'bookings'])->name('owner.bookings.index');
     Route::put('/bookings/{booking}', [App\Http\Controllers\Owner\RoomManagementController::class, 'handleBooking'])->name('owner.bookings.handle');
+    
+
 });
