@@ -10,7 +10,7 @@ class User extends Authenticatable implements MustVerifyEmail // Implement the i
 {
     use Notifiable;
 
-    // Your model properties and methods here
+    // customer
 
     protected $fillable = [
         'name',
