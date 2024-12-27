@@ -37,7 +37,18 @@ Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.up
 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('admin/home',[HomeController::class,'index2']);
+
+// Admin routes
+Route::prefix('admin')->group(function () {
+    Route::get('/home',[HomeController::class,'index2']);
+
+    // Customer management routes
+    Route::post('/admin/customers/sync', [CustomerController::class, 'syncFromUsers'])->name('customers.sync');
+    Route::get('/admin/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
+    Route::put('/admin/customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
+    Route::resource('customers', CustomerController::class);
+
+});
 
 // Owner routes
 Route::prefix('owner')->group(function () {
@@ -53,12 +64,6 @@ Route::prefix('owner')->group(function () {
     // Booking management routes
     Route::get('/bookings', [App\Http\Controllers\Owner\RoomManagementController::class, 'bookings'])->name('owner.bookings.index');
     Route::put('/bookings/{booking}', [App\Http\Controllers\Owner\RoomManagementController::class, 'handleBooking'])->name('owner.bookings.handle');
-
-    // Customer management routes
-    Route::post('/owner/customers/sync', [CustomerController::class, 'syncFromUsers'])->name('customers.sync');
-    Route::get('/owner/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
-    Route::put('/owner/customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
-    Route::resource('customers', CustomerController::class);
     
 
 });

@@ -14,7 +14,7 @@ class CustomerController extends Controller
         $customers = Customer::with('user')->get();
         $users = User::all();
         /* dd($customers); */
-        return view('owner.customers.index', compact('customers'));
+        return view('admin.customers.index', compact('customers'));
     }
 
     // Show the form for creating a new customer
@@ -68,7 +68,7 @@ class CustomerController extends Controller
     // Show the form for editing the specified customer
     public function edit(Customer $customer)
     {
-        return view('owner.customers.edit', compact('customer'));
+        return view('admin.customers.edit', compact('customer'));
     }
 
     // Update the specified customer in storage

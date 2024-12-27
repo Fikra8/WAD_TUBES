@@ -22,11 +22,6 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white d-flex align-items-center" href="/owner/customers">
-                                <i class="bi bi-people me-2"></i> Manage Customers
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-white d-flex align-items-center" href="/profile">
                                 <i class="bi bi-person me-2"></i> Profile
                             </a>

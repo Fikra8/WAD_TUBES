@@ -7,27 +7,17 @@
                     <h4 class="px-3 py-3 text-white fw-bold">Apato</h4>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link text-white active d-flex align-items-center" href="/home">
+                            <a class="nav-link text-white active d-flex align-items-center" href="/admin/home">
                                 <i class="bi bi-house-door me-2"></i> Home
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white d-flex align-items-center" href="/rooms">
-                                <i class="bi bi-search me-2"></i> Search Rooms
+                            <a class="nav-link text-white d-flex align-items-center" href="/admin/customers">
+                                <i class="bi bi-people me-2"></i> Manage Customers
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white d-flex align-items-center" href="/orders">
-                                <i class="bi bi-calendar-check me-2"></i> Book a Room
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white d-flex align-items-center" href="/products">
-                                <i class="bi bi-book me-2"></i> Booking History
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white d-flex align-items-center" href="/customers">
+                            <a class="nav-link text-white d-flex align-items-center" href="/admin/profile">
                                 <i class="bi bi-person me-2"></i> Profile
                             </a>
                         </li>
@@ -52,7 +42,7 @@
                     <div class="mb-4">
                         <img src="{{ asset('images/booking-room.jpg') }}" alt="Booking Room Image" class="img-fluid rounded" style="max-height: 500px; width: 50%; object-fit: cover;">
                     </div>
-                    <a href="/rooms" class="btn btn-primary btn-lg mb-5">Manage here</a>
+                    <a href="/customers" class="btn btn-primary btn-lg mb-5">Manage customers</a>
                 </div>
             </main>
         </div>
