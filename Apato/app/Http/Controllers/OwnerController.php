@@ -82,4 +82,3 @@ class OwnerController extends Controller
         return $pdf->download('owners.pdf');
     }
 }
->>>>>>> main
