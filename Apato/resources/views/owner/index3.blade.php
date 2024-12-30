@@ -116,7 +116,7 @@
                                             @forelse($recentBookings ?? [] as $booking)
                                             <tr>
                                                 <td>{{ $booking->room->name }}</td>
-                                                <td>{{ $booking->user->name }}</td>
+                                                <td>Guest User</td>
                                                 <td>{{ $booking->check_in_date->format('Y-m-d') }}</td>
                                                 <td>
                                                     <span class="badge bg-{{ $booking->status === 'pending' ? 'warning' : ($booking->status === 'approved' ? 'success' : 'danger') }}">

@@ -45,22 +45,25 @@
                                 <thead>
                                     <tr>
                                         <th>Room</th>
-                                        <th>Name</th>
-                                        <th>Date From</th>
-                                        <th>Date To</th>
-                                        <th>People Count</th>
+                                        <th>Check-in Date</th>
+                                        <th>Duration</th>
+                                        <th>Total Price</th>
+                                        <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($custbookings as $booking)
+                                    @forelse ($bookings as $booking)
                                         <tr>
-                                            <!-- Access room name via the room relationship -->
-                                            <td>{{ $custbookings->room->name }}</td>
-                                            <td>{{ $custbookings->name }}</td>
-                                            <td>{{ $custbookings->date_from }}</td>
-                                            <td>{{ $custbookings->date_to }}</td>
-                                            <td>{{ $custbookings->people_count }}</td>
+                                            <td>{{ $booking->room->name }}</td>
+                                            <td>{{ $booking->check_in_date }}</td>
+                                            <td>{{ $booking->duration_months }} months</td>
+                                            <td>Rp {{ number_format($booking->total_price, 0, ',', '.') }}</td>
+                                            <td>
+                                                <span class="badge bg-{{ $booking->status === 'pending' ? 'warning' : ($booking->status === 'approved' ? 'success' : 'danger') }}">
+                                                    {{ ucfirst($booking->status) }}
+                                                </span>
+                                            </td>
                                             <td>
                                                 <!-- Edit and Delete Actions -->
                                                 <a href="{{ route('booking.edit', $booking->id) }}" class="btn btn-sm btn-warning">Edit</a>

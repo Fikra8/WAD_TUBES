@@ -32,9 +32,11 @@
         }
 
         .room-image {
-            width: 100%;
+            width: 50%;
             height: auto;
             margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .form {
@@ -102,19 +104,19 @@
             ← Go Back
         </a>
         <div class="header">
-            <h1>{{ $room->room_title }}</h1>
+            <h1>{{ $room->name }}</h1>
         </div>
 
         <div class="room-info">
-            <img class="room-image" src="{{ $room->image_url }}" alt="Room Image">
-            <p><strong>Room Type:</strong> {{ $room->room_type }}</p>
-            <p><strong>Price:</strong> ${{ $room->price_per_night }} per night</p>
+            <img class="room-image" src="{{ asset($room->image_path) }}" alt="Room Image">
+            <p><strong>Room Type:</strong> {{ $room->type }}</p>
+            <p><strong>Price:</strong> ${{ $room->price }} per month</p>
             <p>{{ $room->description }}</p>
         </div>
 
         <div class="form">
             <h2>Book a Room</h2>
-            <form action="{{ url('add_bookings', $room->id) }}" method="POST">
+            <form action="{{ route('store_booking', $room->id) }}" method="POST">
                 @csrf <!-- CSRF protection -->
 
                 <!-- Name -->

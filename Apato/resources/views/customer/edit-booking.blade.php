@@ -87,38 +87,39 @@
         </a>
         <h1>Edit Booking</h1>
 
-        <form action="{{ route('booking.update', $custbookings->id) }}" method="POST">
+        <form action="{{ route('booking.update', $booking->id) }}" method="POST">
             @csrf
             @method('PUT')
 
             <div class="mb-3">
                 <label for="room_id" class="form-label">Room</label>
-                <input type="text" id="room_id" class="form-control" value="{{ $custbookings->room->name }}" readonly style="background-color: #f0f0f0; color: #666;">
+                <input type="text" id="room_id" class="form-control" value="{{ $booking->room->name }}" readonly style="background-color: #f0f0f0; color: #666;">
             </div>
 
             <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" name="name" id="name" class="form-control" value="{{ $custbookings->name }}" required>
+                <label for="check_in_date" class="form-label">Check-in Date</label>
+                <input type="date" name="check_in_date" id="check_in_date" class="form-control" value="{{ $booking->check_in_date }}" required>
             </div>
 
             <div class="mb-3">
-                <label for="date_from" class="form-label">Date From</label>
-                <input type="date" name="date_from" id="date_from" class="form-control" value="{{ $custbookings->date_from }}" required>
+                <label for="duration_months" class="form-label">Duration (months)</label>
+                <input type="number" name="duration_months" id="duration_months" class="form-control" value="{{ $booking->duration_months }}" min="1" required>
+                <small class="text-muted">Monthly rate: Rp {{ number_format($booking->room->price, 0, ',', '.') }}</small>
             </div>
 
             <div class="mb-3">
-                <label for="date_to" class="form-label">Date To</label>
-                <input type="date" name="date_to" id="date_to" class="form-control" value="{{ $custbookings->date_to }}" required>
+                <label for="notes" class="form-label">Notes</label>
+                <textarea name="notes" id="notes" class="form-control" rows="4">{{ $booking->notes }}</textarea>
             </div>
 
             <div class="mb-3">
-                <label for="people_count" class="form-label">Number of People</label>
-                <input type="number" name="people_count" id="people_count" class="form-control" value="{{ $custbookings->people_count }}" min="1" required>
+                <label class="form-label">Status</label>
+                <input type="text" class="form-control" value="{{ ucfirst($booking->status) }}" readonly style="background-color: #f0f0f0; color: #666;">
             </div>
 
             <div class="mb-3">
-                <label for="comments" class="form-label">Comments</label>
-                <textarea name="comments" id="comments" class="form-control" rows="4">{{ $custbookings->comments }}</textarea>
+                <label class="form-label">Total Price</label>
+                <input type="text" class="form-control" value="Rp {{ number_format($booking->total_price, 0, ',', '.') }}" readonly style="background-color: #f0f0f0; color: #666;">
             </div>
 
             <button type="submit" class="btn btn-primary">Update Booking</button>

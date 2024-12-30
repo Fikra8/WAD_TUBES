@@ -70,7 +70,7 @@
                             @foreach($bookings as $booking)
                             <tr>
                                 <td>{{ $booking->room->name }}</td>
-                                <td>{{ $booking->user->name }}</td>
+                                <td>Guest User</td>
                                 <td>{{ $booking->check_in_date->format('Y-m-d') }}</td>
                                 <td>{{ $booking->duration_months }} month(s)</td>
                                 <td>Rp {{ number_format($booking->total_price, 0, ',', '.') }}</td>

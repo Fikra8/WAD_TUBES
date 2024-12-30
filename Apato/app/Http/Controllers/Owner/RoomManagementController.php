@@ -16,7 +16,11 @@ class RoomManagementController extends Controller
      */
     public function index()
     {
-        $rooms = Room::where('owner_id', 1)->get(); // Use default owner ID
+        // Get rooms for the current owner or show all if no owner
+        $rooms = Room::when(request()->user()?->id, function($query, $userId) {
+            return $query->where('owner_id', $userId);
+        })->get();
+        
         return view('owner.rooms.index', compact('rooms'));
     }
 
@@ -44,7 +48,7 @@ class RoomManagementController extends Controller
 
         $room = new Room($validated);
         $room->status = $validated['status'] ?? 'available'; // Set default status if not provided
-        $room->owner_id = 1; // Set a default owner ID
+        $room->owner_id = request()->user()?->id ?? null; // Set owner ID if user is logged in
         
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -109,11 +113,15 @@ class RoomManagementController extends Controller
      */
     public function handleBooking(Request $request, Booking $booking)
     {
-
         $validated = $request->validate([
             'status' => 'required|in:approved,rejected',
             'notes' => 'nullable|string'
         ]);
+
+        // Set a default user_id if not present
+        if (!$booking->user_id) {
+            $booking->user_id = 1; // Set a default user ID
+        }
 
         $booking->update($validated);
 
@@ -125,9 +133,12 @@ class RoomManagementController extends Controller
      */
     public function bookings()
     {
-        $bookings = Booking::whereHas('room', function ($query) {
-            $query->where('owner_id', 1); // Use default owner ID
-        })->with(['room', 'user'])->get();
+        // Get bookings for rooms owned by the current owner
+        $bookings = Booking::whereHas('room', function($query) {
+            $query->when(request()->user()?->id, function($q, $userId) {
+                return $q->where('owner_id', $userId);
+            });
+        })->with(['room'])->get();
 
         return view('owner.bookings.index', compact('bookings'));
     }
