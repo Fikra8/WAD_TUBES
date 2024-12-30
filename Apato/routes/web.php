@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-<<<<<<< Updated upstream
-=======
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ProfileController;
@@ -13,16 +11,11 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\OwnerController;
->>>>>>> Stashed changes
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('landing');
 });
 
-<<<<<<< Updated upstream
-Route::get('/home', function () {
-    return view('hi');
-=======
 // Authentication routes with email verification enabled
 Auth::routes(['verify' => true]);
 
@@ -39,9 +32,9 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
 Route::post('/email/resend', [VerificationController::class, 'resend'])->name('verification.send');
 
 // Rooms routes
-Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index'); // View all rooms
-Route::get('/rooms/{id}/book', [RoomController::class, 'create'])->name('rooms.create'); // Book specific room (dynamic route)
-Route::post('/rooms/{id}/book', [RoomController::class, 'store'])->name('add_booking'); // Handle booking form submission
+Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
+Route::get('/rooms/{id}/book', [RoomController::class, 'create'])->name('rooms.create');
+Route::post('/rooms/{id}/book', [RoomController::class, 'store'])->name('add_booking');
 Route::post('/add_bookings/{roomId}', [RoomController::class, 'store'])->name('add_bookings');
 
 // Profile routes
@@ -60,13 +53,12 @@ Route::prefix('admin')->group(function () {
     Route::get('/admin/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
     Route::put('/admin/customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
     Route::resource('customers', CustomerController::class);
-
 });
 
-Route::get('/booking-history', [BookingController::class, 'index'])->name('booking-history.index'); // View all bookings
-Route::get('/booking/{id}/edit', [BookingController::class, 'edit'])->name('booking.edit'); // Edit a booking
-Route::put('/booking/{id}', [BookingController::class, 'update'])->name('booking.update'); // Update booking
-Route::delete('/booking/{id}', [BookingController::class, 'destroy'])->name('booking.destroy'); // Delete booking
+Route::get('/booking-history', [BookingController::class, 'index'])->name('booking-history.index');
+Route::get('/booking/{id}/edit', [BookingController::class, 'edit'])->name('booking.edit');
+Route::put('/booking/{id}', [BookingController::class, 'update'])->name('booking.update');
+Route::delete('/booking/{id}', [BookingController::class, 'destroy'])->name('booking.destroy');
 Route::resource('booking-history', BookingController::class)->except(['show']);
 
 Route::get('admin/home',[HomeController::class,'index2']);
@@ -75,7 +67,7 @@ Route::get('admin/home',[HomeController::class,'index2']);
 Route::prefix('owner')->group(function () {
     Route::get('/owners', [OwnerController::class, 'index'])->name('owners.index');
     Route::get('/owners/{owner}/edit', [OwnerController::class, 'edit'])->name('owners.edit');
-    Route::put('/owners/{owner}', [OwnerController::class, 'update'])->name('owners.update');  // Ensure PUT is defined here
+    Route::put('/owners/{owner}', [OwnerController::class, 'update'])->name('owners.update');
     Route::delete('/owners/{owner}', [OwnerController::class, 'destroy'])->name('owners.destroy');
 
     // Room management routes
@@ -88,7 +80,4 @@ Route::prefix('owner')->group(function () {
     // Booking management routes
     Route::get('/bookings', [App\Http\Controllers\Owner\RoomManagementController::class, 'bookings'])->name('owner.bookings.index');
     Route::put('/bookings/{booking}', [App\Http\Controllers\Owner\RoomManagementController::class, 'handleBooking'])->name('owner.bookings.handle');
-    
-
->>>>>>> Stashed changes
 });
