@@ -11,8 +11,8 @@ class BookingController extends Controller
     // Show booking history for the authenticated user
     public function index()
     {
-        $bookings=Booking::all();
-        return view('customer.booking-history', compact('bookings'));
+        $custbookings=Booking::all();
+        return view('customer.booking-history', compact('custbookings'));
     }
 
 
@@ -45,15 +45,15 @@ class BookingController extends Controller
         }
     
         // Create a new booking
-        $bookings = new Booking();
-        $bookings->email = $request->email;  // Store the user's email
-        $bookings->room_id = $request->room_id;
-        $bookings->date_from = $request->date_from;
-        $bookings->date_to = $request->date_to;
-        $bookings->people_count = $request->people_count;
-        $bookings->comments = $request->comments;
-        $bookings->upload_image_path = $filePath; // Save the file path in the database
-        $bookings->save();
+        $custbookings = new Booking();
+        $custbookings->email = $request->email;  // Store the user's email
+        $custbookings->name = $request->name;
+        $custbookings->date_from = $request->date_from;
+        $custbookings->date_to = $request->date_to;
+        $custbookings->people_count = $request->people_count;
+        $custbookings->comments = $request->comments;
+        $custbookings->upload_image_path = $filePath; // Save the file path in the database
+        $custbookings->save();
     
         // Redirect with success message
         return redirect()->route('booking-history.index')->with('success', 'Booking created successfully');
@@ -62,16 +62,16 @@ class BookingController extends Controller
     // Show the form to edit an existing booking
     public function edit($id)
     {
-        $bookings = Booking::findOrFail($id);
+        $custbookings = Booking::findOrFail($id);
 
         $rooms = Room::all();
-        return view('customer.edit-booking', compact('bookings', 'rooms'));
+        return view('customer.edit-booking', compact('custbookings', 'rooms'));
     }
 
     // Update an existing booking
     public function update(Request $request, $id)
     {
-        $bookings = Booking::findOrFail($id);
+        $custbookings = Booking::findOrFail($id);
     
     
     
@@ -87,7 +87,7 @@ class BookingController extends Controller
     
       
         // Update the booking details
-        $bookings->update($request->except('upload_image_path'));
+        $custbookings->update($request->except('upload_image_path'));
     
         // Redirect with success message
         // Flash success message
@@ -100,10 +100,10 @@ class BookingController extends Controller
     // Delete an existing booking
     public function destroy($id)
     {
-        $bookings = Booking::findOrFail($id);
+        $custbookings = Booking::findOrFail($id);
 
             // Delete the booking
-        $bookings->delete();
+        $custbookings->delete();
 
         // Redirect with success message
         // Flash success message
