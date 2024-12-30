@@ -62,6 +62,7 @@
                                 <th>Check-in Date</th>
                                 <th>Duration</th>
                                 <th>Total Price</th>
+                                <th>Payment Proof</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -75,24 +76,38 @@
                                 <td>{{ $booking->duration_months }} month(s)</td>
                                 <td>Rp {{ number_format($booking->total_price, 0, ',', '.') }}</td>
                                 <td>
+                                    @if($booking->payment_proof)
+                                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#proofModal{{ $booking->id }}">
+                                            View Proof
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="proofModal{{ $booking->id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Payment Proof</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                    <div class="modal-body text-center">
+                                        <img src="{{ $booking->payment_proof }}" alt="Payment Proof" style="max-width: 100%; max-height: 500px; object-fit: contain;">
+                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <span class="text-muted">No proof uploaded</span>
+                                    @endif
+                                </td>
+                                <td>
                                     <span class="badge bg-{{ $booking->status === 'pending' ? 'warning' : ($booking->status === 'approved' ? 'success' : 'danger') }}">
                                         {{ ucfirst($booking->status) }}
                                     </span>
                                 </td>
                                 <td>
                                     @if($booking->status === 'pending')
-                                        <form action="{{ route('owner.bookings.handle', $booking) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('PUT')
-                                            <input type="hidden" name="status" value="approved">
-                                            <button type="submit" class="btn btn-sm btn-success me-2">Approve</button>
-                                        </form>
-                                        <form action="{{ route('owner.bookings.handle', $booking) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('PUT')
-                                            <input type="hidden" name="status" value="rejected">
-                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to reject this booking?')">Reject</button>
-                                        </form>
+                                        <button type="button" class="btn btn-sm btn-success me-2" onclick="approveBooking({{ $booking->id }})">Approve</button>
+                                        <button type="button" class="btn btn-sm btn-danger" onclick="if(confirm('Are you sure?')) rejectBooking({{ $booking->id }})">Reject</button>
                                     @else
                                         <span class="text-muted">No actions available</span>
                                     @endif
@@ -105,4 +120,59 @@
             </main>
         </div>
     </div>
+    <script>
+        function approveBooking(bookingId) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/owner/bookings/${bookingId}`;
+            
+            const csrfToken = document.createElement('input');
+            csrfToken.type = 'hidden';
+            csrfToken.name = '_token';
+            csrfToken.value = '{{ csrf_token() }}';
+            
+            const method = document.createElement('input');
+            method.type = 'hidden';
+            method.name = '_method';
+            method.value = 'PUT';
+            
+            const status = document.createElement('input');
+            status.type = 'hidden';
+            status.name = 'status';
+            status.value = 'approved';
+            
+            form.appendChild(csrfToken);
+            form.appendChild(method);
+            form.appendChild(status);
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+        function rejectBooking(bookingId) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/owner/bookings/${bookingId}`;
+            
+            const csrfToken = document.createElement('input');
+            csrfToken.type = 'hidden';
+            csrfToken.name = '_token';
+            csrfToken.value = '{{ csrf_token() }}';
+            
+            const method = document.createElement('input');
+            method.type = 'hidden';
+            method.name = '_method';
+            method.value = 'PUT';
+            
+            const status = document.createElement('input');
+            status.type = 'hidden';
+            status.name = 'status';
+            status.value = 'rejected';
+            
+            form.appendChild(csrfToken);
+            form.appendChild(method);
+            form.appendChild(status);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
 </x-app-layout>

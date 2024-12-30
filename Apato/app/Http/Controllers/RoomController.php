@@ -32,6 +32,7 @@ class RoomController extends Controller
             'time_to' => 'required',
             'people_count' => 'required|integer|min:1',
             'comments' => 'nullable|string',
+            'payment_proof' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         // Get the room
@@ -45,6 +46,14 @@ class RoomController extends Controller
         // Calculate total price
         $totalPrice = $room->price * $durationMonths;
 
+        // Handle payment proof upload
+        $paymentProof = null;
+        if ($request->hasFile('payment_proof')) {
+            $file = $request->file('payment_proof');
+            $path = $file->store('payment_proofs', 'public');
+            $paymentProof = asset('storage/' . $path);
+        }
+
         // Create a new booking
         $booking = new Booking([
             'room_id' => $roomId,
@@ -53,7 +62,8 @@ class RoomController extends Controller
             'duration_months' => $durationMonths,
             'total_price' => $totalPrice,
             'status' => 'pending',
-            'notes' => $request->comments
+            'notes' => $request->comments,
+            'payment_proof' => $paymentProof
         ]);
 
         $booking->save();
