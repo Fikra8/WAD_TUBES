@@ -87,38 +87,38 @@
         </a>
         <h1>Edit Booking</h1>
 
-        <form action="{{ route('booking.update', $bookings->id) }}" method="POST">
+        <form action="{{ route('booking.update', $custbookings->id) }}" method="POST">
             @csrf
             @method('PUT')
 
             <div class="mb-3">
                 <label for="room_id" class="form-label">Room</label>
-                <input type="text" id="room_id" class="form-control" value="{{ $bookings->room->name }}" readonly style="background-color: #f0f0f0; color: #666;">
+                <input type="text" id="room_id" class="form-control" value="{{ $custbookings->room->name }}" readonly style="background-color: #f0f0f0; color: #666;">
             </div>
 
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" name="name" id="name" class="form-control" value="{{ $bookings->name }}" required>
+                <input type="text" name="name" id="name" class="form-control" value="{{ $custbookings->name }}" required>
             </div>
 
             <div class="mb-3">
                 <label for="date_from" class="form-label">Date From</label>
-                <input type="date" name="date_from" id="date_from" class="form-control" value="{{ $bookings->date_from }}" required>
+                <input type="date" name="date_from" id="date_from" class="form-control" value="{{ $custbookings->date_from }}" required>
             </div>
 
             <div class="mb-3">
                 <label for="date_to" class="form-label">Date To</label>
-                <input type="date" name="date_to" id="date_to" class="form-control" value="{{ $bookings->date_to }}" required>
+                <input type="date" name="date_to" id="date_to" class="form-control" value="{{ $custbookings->date_to }}" required>
             </div>
 
             <div class="mb-3">
                 <label for="people_count" class="form-label">Number of People</label>
-                <input type="number" name="people_count" id="people_count" class="form-control" value="{{ $bookings->people_count }}" min="1" required>
+                <input type="number" name="people_count" id="people_count" class="form-control" value="{{ $custbookings->people_count }}" min="1" required>
             </div>
 
             <div class="mb-3">
                 <label for="comments" class="form-label">Comments</label>
-                <textarea name="comments" id="comments" class="form-control" rows="4">{{ $bookings->comments }}</textarea>
+                <textarea name="comments" id="comments" class="form-control" rows="4">{{ $custbookings->comments }}</textarea>
             </div>
 
             <button type="submit" class="btn btn-primary">Update Booking</button>

@@ -53,14 +53,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($bookings as $booking)
+                                    @forelse ($custbookings as $booking)
                                         <tr>
                                             <!-- Access room name via the room relationship -->
-                                            <td>{{ $booking->room->name }}</td>
-                                            <td>{{ $booking->name }}</td>
-                                            <td>{{ $booking->date_from }}</td>
-                                            <td>{{ $booking->date_to }}</td>
-                                            <td>{{ $booking->people_count }}</td>
+                                            <td>{{ $custbookings->room->name }}</td>
+                                            <td>{{ $custbookings->name }}</td>
+                                            <td>{{ $custbookings->date_from }}</td>
+                                            <td>{{ $custbookings->date_to }}</td>
+                                            <td>{{ $custbookings->people_count }}</td>
                                             <td>
                                                 <!-- Edit and Delete Actions -->
                                                 <a href="{{ route('booking.edit', $booking->id) }}" class="btn btn-sm btn-warning">Edit</a>
