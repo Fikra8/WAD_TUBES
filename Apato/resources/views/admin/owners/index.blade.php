@@ -39,6 +39,8 @@
             <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between mb-3">
                     <h2>Manage Owners</h2>
+                    <!-- Export Button -->
+                    <a href="{{ route('owners.export') }}" class="btn btn-primary">Export PDF</a>
                 </div>
                 @if (session('success'))
                     <div class="alert alert-success">

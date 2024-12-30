@@ -69,6 +69,7 @@ Route::prefix('owner')->group(function () {
     Route::get('/owners/{owner}/edit', [OwnerController::class, 'edit'])->name('owners.edit');
     Route::put('/owners/{owner}', [OwnerController::class, 'update'])->name('owners.update');
     Route::delete('/owners/{owner}', [OwnerController::class, 'destroy'])->name('owners.destroy');
+    Route::get('owners/export', [OwnerController::class, 'export'])->name('owners.export');
 
     // Room management routes
     Route::get('/rooms', [App\Http\Controllers\Owner\RoomManagementController::class, 'index'])->name('owner.rooms.index');

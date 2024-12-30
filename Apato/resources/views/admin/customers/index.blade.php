@@ -17,6 +17,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-white d-flex align-items-center" href="/owner/owners">
+                                <i class="bi bi-person-circle me-2"></i> Manage Owners
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-white d-flex align-items-center" href="/admin/profile">
                                 <i class="bi bi-person me-2"></i> Profile
                             </a>
