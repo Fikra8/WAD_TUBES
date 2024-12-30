@@ -17,7 +17,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white d-flex align-items-center" href="/owner/owners">
+                            <a class="nav-link text-white d-flex align-items-center" href="{{ route('admin.owners.index') }}">
                                 <i class="bi bi-person-circle me-2"></i> Manage Owners
                             </a>
                         </li>
@@ -39,15 +39,16 @@
             <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between mb-3">
                     <h2>Manage Owners</h2>
-                    <!-- Export Button -->
-                    <a href="{{ route('owners.export') }}" class="btn btn-primary">Export PDF</a>
+                    <form action="{{ route('admin.owners.export') }}" method="GET" style="display:inline-block;">
+                        <button type="submit" class="btn btn-primary">Export PDF</button>
+                    </form>
                 </div>
                 @if (session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}
                     </div>
                 @endif
-                <table class="table table-bordered">
+                <table class="table">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -68,7 +69,7 @@
                                 <td>{{ $owner->address }}</td>
                                 <td>
                                     <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editOwnerModal{{ $owner->id }}">Edit</button>
-                                    <form action="{{ route('owners.destroy', $owner->id) }}" method="POST" style="display:inline-block;">
+                                    <form action="{{ route('admin.owners.destroy', $owner->id) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</button>

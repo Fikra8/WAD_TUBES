@@ -17,7 +17,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white d-flex align-items-center" href="/owner/owners">
+                            <a class="nav-link text-white d-flex align-items-center" href="{{ route('admin.owners.index') }}">
                                 <i class="bi bi-people me-2"></i> Manage Owners
                             </a>
                         </li>
@@ -49,7 +49,7 @@
                     </div>
                     <div class="d-flex justify-content-center gap-3">
                         <a href="/customers" class="btn btn-primary btn-lg mb-5">Manage Customers</a>
-                        <a href="{{ route('owners.index') }}" class="btn btn-primary btn-lg mb-5">Manage Owners</a>
+                        <a href="{{ route('admin.owners.index') }}" class="btn btn-primary btn-lg mb-5">Manage Owners</a>
                     </div>
                 </div>
             </main>

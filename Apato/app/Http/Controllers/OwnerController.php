@@ -15,6 +15,7 @@ class OwnerController extends Controller
      */
     public function index()
     {
+        // Owner dashboard view
         $rooms = Room::all();
         $pendingBookings = Booking::where('status', 'pending')->count();
         $availableRooms = Room::where('status', 'available')->count();
@@ -72,13 +73,13 @@ class OwnerController extends Controller
 
     public function export()
     {
-        // Retrieve the owners data
-        $owners = Owner::all();
+        // Retrieve only users with usertype 'owner'
+        $owners = Owner::where('usertype', 'owner')->get();
 
         // Generate the PDF from the admin.owners.export view
         $pdf = PDF::loadView('admin.owners.export', compact('owners'));
 
         // Download the generated PDF
-        return $pdf->download('owners.pdf');
+        return $pdf->download('owners-list.pdf');
     }
 }

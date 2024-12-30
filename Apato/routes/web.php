@@ -11,6 +11,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\OwnerController;
+use App\Http\Controllers\Admin\AdminOwnerController;
 
 Route::get('/', function () {
     return view('landing');
@@ -52,6 +53,13 @@ Route::prefix('admin')->group(function () {
     Route::get('/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
     Route::put('/customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
     Route::resource('customers', CustomerController::class);
+
+    // Owner management routes
+    Route::get('/owners', [AdminOwnerController::class, 'index'])->name('admin.owners.index');
+    Route::get('/owners/{owner}/edit', [AdminOwnerController::class, 'edit'])->name('admin.owners.edit');
+    Route::put('/owners/{owner}', [AdminOwnerController::class, 'update'])->name('admin.owners.update');
+    Route::delete('/owners/{owner}', [AdminOwnerController::class, 'destroy'])->name('admin.owners.destroy');
+    Route::get('/owners/export', [AdminOwnerController::class, 'export'])->name('admin.owners.export');
 });
 
 // Booking routes
@@ -63,14 +71,8 @@ Route::resource('booking-history', BookingController::class)->except(['show']);
 
 // Owner routes
 Route::prefix('owner')->group(function () {
-    // Public owner routes (no auth required)
-    Route::get('/', [OwnerController::class, 'index'])->name('owners.index');
     Route::get('/home', [OwnerController::class, 'index'])->name('owner.home');
-    Route::get('/{owner}/edit', [OwnerController::class, 'edit'])->name('owners.edit');
-    Route::put('/{owner}', [OwnerController::class, 'update'])->name('owners.update');
-    Route::delete('/{owner}', [OwnerController::class, 'destroy'])->name('owners.destroy');
-    Route::get('/export', [OwnerController::class, 'export'])->name('owners.export');
-
+    
     // Room management routes
     Route::get('/rooms', [App\Http\Controllers\Owner\RoomManagementController::class, 'index'])->name('owner.rooms.index');
     Route::get('/rooms/{room}', [App\Http\Controllers\Owner\RoomManagementController::class, 'show'])->name('owner.rooms.show');

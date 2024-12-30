@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="editOwnerForm" action="{{ route('owners.update', $owner->id) }}" method="POST">
+                <form id="editOwnerForm" action="{{ route('admin.owners.update', $owner->id) }}" method="POST">
                     @csrf
                     @method('PUT')
 
