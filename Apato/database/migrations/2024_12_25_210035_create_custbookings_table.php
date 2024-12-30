@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('date_from');
             $table->date('date_to');
             $table->integer('people_count');
+            $table->string('proofofpayment_path')->nullable();
             $table->text('comments')->nullable();
             $table->timestamps();
         });
