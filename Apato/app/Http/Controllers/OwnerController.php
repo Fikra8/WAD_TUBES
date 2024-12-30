@@ -6,6 +6,7 @@ use App\Models\Owner;
 use App\Models\Room;
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OwnerController extends Controller
 {
@@ -68,4 +69,17 @@ class OwnerController extends Controller
         // Redirect back to the owners list with a success message
         return redirect()->route('owners.index')->with('success', 'Owner deleted successfully!');
     }
+
+    public function export()
+    {
+        // Retrieve the owners data
+        $owners = Owner::all();
+
+        // Generate the PDF from the admin.owners.export view
+        $pdf = PDF::loadView('admin.owners.export', compact('owners'));
+
+        // Download the generated PDF
+        return $pdf->download('owners.pdf');
+    }
 }
+>>>>>>> main
