@@ -32,9 +32,12 @@
         }
 
         .room-image {
-            width: 100%;
+            width: 30%;
             height: auto;
-            margin-bottom: 20px;
+            margin: 0 auto 20px;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .form {
@@ -102,19 +105,19 @@
             ← Go Back
         </a>
         <div class="header">
-            <h1>{{ $room->room_title }}</h1>
+            <h1>{{ $room->name }}</h1>
         </div>
 
         <div class="room-info">
-            <img class="room-image" src="{{ $room->image_url }}" alt="Room Image">
-            <p><strong>Room Type:</strong> {{ $room->room_type }}</p>
-            <p><strong>Price:</strong> ${{ $room->price_per_night }} per night</p>
+            <img class="room-image" src="{{ asset($room->image_path) }}" alt="Room Image">
+            <p><strong>Room Type:</strong> {{ $room->type }}</p>
+            <p><strong>Price:</strong> Rp {{ number_format($room->price, 0, ',', '.') }} per month</p>
             <p>{{ $room->description }}</p>
         </div>
 
         <div class="form">
             <h2>Book a Room</h2>
-            <form action="{{ url('add_bookings', $room->id) }}" method="POST">
+            <form action="{{ route('store_booking', $room->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf <!-- CSRF protection -->
 
                 <!-- Name -->
@@ -150,6 +153,13 @@
                 <!-- Comments -->
                 <label class="form-label" for="comments">Comments</label>
                 <textarea id="comments" name="comments" rows="4" placeholder="Additional comments"></textarea>
+
+                <!-- Payment Proof -->
+                <div class="mb-3">
+                    <label for="payment_proof" class="form-label">Proof of Payment</label>
+                    <input type="file" name="payment_proof" id="payment_proof" class="form-control" accept="image/*" required>
+                    <small class="text-muted">Upload a photo of your payment receipt</small>
+                </div>
 
                 <!-- Submit Button -->
                 <button type="submit">Book Now</button>

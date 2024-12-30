@@ -33,9 +33,8 @@ Route::post('/email/resend', [VerificationController::class, 'resend'])->name('v
 
 // Rooms routes
 Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
-Route::get('/rooms/{id}/book', [RoomController::class, 'create'])->name('rooms.create');
-Route::post('/rooms/{id}/book', [RoomController::class, 'store'])->name('add_booking');
-Route::post('/add_bookings/{roomId}', [RoomController::class, 'store'])->name('add_bookings');
+Route::get('/rooms/{id}/book', [RoomController::class, 'create'])->name('add_booking');
+Route::post('/rooms/{id}/book', [RoomController::class, 'store'])->name('store_booking');
 
 // Profile routes
 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -49,27 +48,28 @@ Route::prefix('admin')->group(function () {
     Route::get('/home',[HomeController::class,'index2']);
 
     // Customer management routes
-    Route::post('/admin/customers/sync', [CustomerController::class, 'syncFromUsers'])->name('customers.sync');
-    Route::get('/admin/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
-    Route::put('/admin/customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
+    Route::post('/customers/sync', [CustomerController::class, 'syncFromUsers'])->name('customers.sync');
+    Route::get('/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
+    Route::put('/customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
     Route::resource('customers', CustomerController::class);
 });
 
+// Booking routes
 Route::get('/booking-history', [BookingController::class, 'index'])->name('booking-history.index');
 Route::get('/booking/{id}/edit', [BookingController::class, 'edit'])->name('booking.edit');
 Route::put('/booking/{id}', [BookingController::class, 'update'])->name('booking.update');
 Route::delete('/booking/{id}', [BookingController::class, 'destroy'])->name('booking.destroy');
 Route::resource('booking-history', BookingController::class)->except(['show']);
 
-Route::get('admin/home',[HomeController::class,'index2']);
-
 // Owner routes
 Route::prefix('owner')->group(function () {
-    Route::get('/owners', [OwnerController::class, 'index'])->name('owners.index');
-    Route::get('/owners/{owner}/edit', [OwnerController::class, 'edit'])->name('owners.edit');
-    Route::put('/owners/{owner}', [OwnerController::class, 'update'])->name('owners.update');
-    Route::delete('/owners/{owner}', [OwnerController::class, 'destroy'])->name('owners.destroy');
-    Route::get('owners/export', [OwnerController::class, 'export'])->name('owners.export');
+    // Public owner routes (no auth required)
+    Route::get('/', [OwnerController::class, 'index'])->name('owners.index');
+    Route::get('/home', [OwnerController::class, 'index'])->name('owner.home');
+    Route::get('/{owner}/edit', [OwnerController::class, 'edit'])->name('owners.edit');
+    Route::put('/{owner}', [OwnerController::class, 'update'])->name('owners.update');
+    Route::delete('/{owner}', [OwnerController::class, 'destroy'])->name('owners.destroy');
+    Route::get('/export', [OwnerController::class, 'export'])->name('owners.export');
 
     // Room management routes
     Route::get('/rooms', [App\Http\Controllers\Owner\RoomManagementController::class, 'index'])->name('owner.rooms.index');

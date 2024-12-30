@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Owner;  // Ensure this is using the Owner model
+use App\Models\Owner;
+use App\Models\Room;
+use App\Models\Booking;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -13,9 +15,15 @@ class OwnerController extends Controller
      */
     public function index()
     {
-        // Using the scope method to fetch only owners
-        $owners = Owner::owners()->get();
-        return view('admin.owners.index', compact('owners'));
+        $rooms = Room::all();
+        $pendingBookings = Booking::where('status', 'pending')->count();
+        $availableRooms = Room::where('status', 'available')->count();
+        $recentBookings = Booking::with(['room', 'user'])
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
+
+        return view('owner.index3', compact('rooms', 'pendingBookings', 'availableRooms', 'recentBookings'));
     }
 
     /**
@@ -25,7 +33,7 @@ class OwnerController extends Controller
     {
         // Find the owner by ID or fail
         $owner = Owner::findOrFail($id);
-        return view('admin.owners.edit', compact('owner'));
+        return view('owner.edit', compact('owner'));
     }
 
     /**
@@ -74,3 +82,4 @@ class OwnerController extends Controller
         return $pdf->download('owners.pdf');
     }
 }
+>>>>>>> main
