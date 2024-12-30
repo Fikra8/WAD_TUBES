@@ -15,9 +15,31 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Create default admin account
+        User::create([
+            'name' => 'Admin User',
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt('admin123'),
+            'usertype' => 'admin',
+            'email_verified_at' => now(),
+        ]);
+
+        // Create default owner account
+        User::create([
+            'name' => 'Owner User',
+            'email' => 'owner@gmail.com',
+            'password' => bcrypt('owner123'),
+            'usertype' => 'owner',
+            'email_verified_at' => now(),
+        ]);
+
+        // Create default customer account
+        User::create([
+            'name' => 'Customer User',
+            'email' => 'customer@gmail.com',
+            'password' => bcrypt('customer123'),
+            'usertype' => 'customer',
+            'email_verified_at' => now(),
         ]);
     }
 }
