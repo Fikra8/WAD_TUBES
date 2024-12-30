@@ -17,6 +17,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-white d-flex align-items-center" href="/owner/owners">
+                                <i class="bi bi-people me-2"></i> Manage Owners
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-white d-flex align-items-center" href="/admin/profile">
                                 <i class="bi bi-person me-2"></i> Profile
                             </a>
@@ -38,11 +43,14 @@
 
                 <div class="text-center">
                     <h2 class="mb-3">Get Started on Manage Users</h2>
-                    <p class="lead mb-4">Explore available rooms, manage your bookings, and more.</p>
+                    <p class="lead mb-4">Manage the users that use APATO.</p>
                     <div class="mb-4">
                         <img src="{{ asset('images/booking-room.jpg') }}" alt="Booking Room Image" class="img-fluid rounded" style="max-height: 500px; width: 50%; object-fit: cover;">
                     </div>
-                    <a href="/customers" class="btn btn-primary btn-lg mb-5">Manage customers</a>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="/customers" class="btn btn-primary btn-lg mb-5">Manage Customers</a>
+                        <a href="{{ route('owners.index') }}" class="btn btn-primary btn-lg mb-5">Manage Owners</a>
+                    </div>
                 </div>
             </main>
         </div>
