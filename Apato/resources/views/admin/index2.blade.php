@@ -48,7 +48,7 @@
                         <img src="{{ asset('images/booking-room.jpg') }}" alt="Booking Room Image" class="img-fluid rounded" style="max-height: 500px; width: 50%; object-fit: cover;">
                     </div>
                     <div class="d-flex justify-content-center gap-3">
-                        <a href="/customers" class="btn btn-primary btn-lg mb-5">Manage Customers</a>
+                        <a href="/admin/customers" class="btn btn-primary btn-lg mb-5">Manage Customers</a>
                         <a href="{{ route('admin.owners.index') }}" class="btn btn-primary btn-lg mb-5">Manage Owners</a>
                     </div>
                 </div>

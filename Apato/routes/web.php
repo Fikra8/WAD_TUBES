@@ -15,7 +15,7 @@ use App\Http\Controllers\Admin\AdminOwnerController;
 
 Route::get('/', function () {
     return view('landing');
-});
+})->name('landing');
 
 // Authentication routes with email verification enabled
 Auth::routes(['verify' => true]);
